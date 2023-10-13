@@ -4,6 +4,7 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   darkMode: false,
+  important: true,
   theme: {
     extend: {},
   },

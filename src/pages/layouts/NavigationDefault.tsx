@@ -3,18 +3,34 @@ import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Disclosure } from '@headlessui/react'
 import { HiBars3CenterLeft, HiXMark  } from "react-icons/hi2";
-import Logo from '../../../public/vite.svg'
+import Logo from '/vite.svg'
+// import AxiosConfig from '../../AxiosConfig';
+import Cookies from 'universal-cookie';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
 }
 
 const Navbar = () => {
+    const cookies = new Cookies();
+    const token = cookies.get('Authorization')
+    // const { axios, setAuthToken } = Axios
+
     const [navigation, setNavigation] = useState([
-        { name: 'Dashboard', href: '/', current: false },
-        { name: 'Owner', href: '/owner', current: false },
-        { name: 'Mitra', href: '/mitra', current: false },
+        { name: 'HomePage', href: '/', current: false },
+        { name: 'Dashboard', href: '/cms/dashboard', current: false },
+        { name: 'Posts', href: '/cms/posts', current: false },
+        { name: 'Users', href: '/cms/users', current: false },
+        token
+            ? { name: 'Logout', href: '/cms/logout', current: false }
+            : { name: 'Login', href: '/login', current: false },
       ]);
+
+    //   if (!token) {
+    //     navigation.push({ name: 'Login', href: '/login', current: false });
+    //   } else {
+    //     navigation.push({ name: 'Logout', href: '/logout', current: false });
+    //   }
       
       function changeActiveNavigation(index: number) {
         if (navigation[index].current === false) {
@@ -35,6 +51,7 @@ const Navbar = () => {
             newNavigation.forEach((item) => {
             item.current = item.href === pathname;
             });
+            
             return newNavigation;
         });
       }, []);
@@ -46,7 +63,7 @@ const Navbar = () => {
         if (window.scrollY > 75) {
             setColor('bg-gray-950 scale-100');
         } else {
-            setColor('bg-transparent scale-105');
+            setColor('bg-gray-800 scale-105');
         }
     };
 
@@ -75,31 +92,31 @@ const Navbar = () => {
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
                         <div className="flex flex-shrink-0 items-center">
-                        <img
-                            className="h-8 w-auto"
-                            src={Logo}
-                            alt="OS"
-                        />
+                            <img
+                                className="h-8 w-auto"
+                                src={Logo}
+                                alt="OS"
+                            />
 
-                        <span className="text-xl ml-2 text-white">Base App Vite</span>
+                            <span className="text-xl ml-2 text-white">Base App React+Laravel</span>
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
                                 {navigation.map((item, index) => (
-                                <NavLink
-                                    // exact
-                                    // key={item.name}
-                                    key={index}
-                                    to={item.href}
-                                    className={classNames(
-                                    item.current ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                    'rounded-md px-3 py-2 text-sm font-medium'
-                                    )}
-                                    onClick={() => changeActiveNavigation(index)}
-                                >
-                                    {item.name}
-                                </NavLink>
-                                ))}
+                                    <NavLink
+                                        // exact
+                                        // key={item.name}
+                                        key={index}
+                                        to={item.href}
+                                        className={classNames(
+                                        item.current ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                        'rounded-md px-3 py-2 text-sm font-medium'
+                                        )}
+                                        onClick={() => changeActiveNavigation(index)}
+                                    >
+                                        {item.name}
+                                    </NavLink>
+                                    ))}
                             </div>
                         </div>
                     </div>
